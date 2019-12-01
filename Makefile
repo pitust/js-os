@@ -2,7 +2,7 @@ METALKIT_LIB = metalkit/lib
 TARGET = js-os.img
 LIB_MODULES = console console_vga intr bios
 APP_SOURCES = out/js.o $(wildcard src/*.c)
-
+CC := gcc
 ifneq (,$(wildcard $(METALKIT_LIB)/Makefile.rules))
 include $(METALKIT_LIB)/Makefile.rules
 endif
@@ -27,10 +27,16 @@ out/js.o: out/main.c
 	@$(CC) $(JSCFLAGS) -c out/main.c -o out/js.o
 
 init:
+	@rm -rf metalkit
 	@git clone https://github.com/scanlime/metalkit metalkit
 	@npm install
 	@patch metalkit/lib/types.h < src/types.diff
-	@patch metalkit/lib/Makefile.rules < src/Makefile.diff
+	@echo "GCCVER := $(shell gcc --version | egrep -o "[0-9.]{1,}" | head -n 1)" > tmp1
+	@echo 'CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$(METALKIT_LIB) $(addprefix -I,$(wildcard /usr/lib/gcc/*-linux-gnu/7.4.0/include))' > tmp3
+	@cat tmp1 tmp3 metalkit/lib/Makefile.rules | sed "s/\*.o/out\/*/g" >tmp2
+	@cat tmp2 | sed 's/CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$$(METALKIT_LIB)//g' >tmp1
+	@cat tmp2 >metalkit/lib/Makefile.rules
+	@rm tmp1 tmp2 tmp3
 	@mkdir -p out
 sizeof:
 	@node src/sizeof
