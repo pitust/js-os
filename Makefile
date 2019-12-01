@@ -19,6 +19,7 @@ out/main.c: out/main.js
 	@sed "s/#include <stdlib.h>//g" >out/main3.c <out/main2.c
 	@sed "s/#include <assert.h>//g" >out/main4.c <out/main3.c
 	@sed "s/#include <stdio.h>/#include <libk.h>/g" >out/main.c <out/main4.c
+	@node src/cpatch
 out/babeld.js: $(wildcard src/js/*)
 	@echo "ESnext -> ES2015"
 	@node src/build
