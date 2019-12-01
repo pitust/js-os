@@ -1,5 +1,5 @@
 METALKIT_LIB = metalkit/lib
-TARGET = tsos.img
+TARGET = js-os.img
 LIB_MODULES = console console_vga intr bios
 APP_SOURCES = out/js.o $(wildcard src/*.c)
 
@@ -34,4 +34,6 @@ init:
 	@mkdir -p out
 sizeof:
 	@node src/sizeof
-.PHONY: target clean sizeprof listing init
+run: jsos.img
+	qemu-system-x86_64 -fda js-os.img -curses
+.PHONY: target clean sizeprof listing init sizeof run
