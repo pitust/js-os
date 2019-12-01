@@ -32,4 +32,6 @@ init:
 	@patch metalkit/lib/types.h < src/types.diff
 	@patch metalkit/lib/Makefile.rules < src/Makefile.diff
 	@mkdir -p out
+sizeof:
+	node src/sizeof
 .PHONY: target clean sizeprof listing init
