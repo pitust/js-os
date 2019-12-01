@@ -4,6 +4,8 @@ let all = proc.execSync('find .').toString().split('\n').map(e => e.trim()).filt
 let flen = [], glen = 0;
 for (let e of all) {
     if (e.includes('.git')) continue;
+    if (e.includes('node_modules')) continue;
+    if (e.includes('metalkit')) continue;
     if (fs.statSync(e).isDirectory()) continue;
     let len = fs.readFileSync(e).toString().split('\n').length;
     flen.push({ len, file: e });

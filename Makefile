@@ -34,6 +34,6 @@ init:
 	@mkdir -p out
 sizeof:
 	@node src/sizeof
-run: jsos.img
+run: js-os.img
 	qemu-system-x86_64 -fda js-os.img -curses
 .PHONY: target clean sizeprof listing init sizeof run
