@@ -1,5 +1,2 @@
-let i = 0;
-while (++i) {
-    console.log(i);
-    Nat_WRMEM(0xb8000, 0x48484848);
-}
+Nat_WRMEM(0xb8000, 0x0f310f30); // 0 1
+Nat_WRMEM(0xb8004, 0x0f330f32); // 2 3

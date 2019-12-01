@@ -6,6 +6,7 @@ CC := gcc
 ifneq (,$(wildcard $(METALKIT_LIB)/Makefile.rules))
 include $(METALKIT_LIB)/Makefile.rules
 endif
+CFLAGS += -DDEBUG=1
 JSCFLAGS := $(subst -Wall -Werror,,$(CFLAGS)) -Isrc
 out/main.js: out/babeld.js
 	@echo "ES2015 -> ES3"

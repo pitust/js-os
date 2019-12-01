@@ -7,7 +7,7 @@ int _2nd_main___();
 void main()
 {
     ConsoleVGA_Init();
-    Console_WriteString("[[kmain]] Detecting memory\n");
+    // Console_WriteString("[[kmain]] Detecting memory\n");
     Regs r;
     r.ax = 0xe801;
     r.bx = 0;
@@ -36,8 +36,8 @@ void main()
         // More high memory!!!
         memconfig(MEGA * 16, memhi);
     }
-    printf("memconfig finished: found %d of low mem, %d of high mem, %d of rly low mem\n", memlo, memhi, 0x7c00 - 0x400);
-    Console_WriteString("[[kmain]] calling _2nd_main___\n");
+    // printf("memconfig finished: found %d of low mem, %d of high mem, %d of rly low mem\n", memlo, memhi, 0x7c00 - 0x400);
+    // Console_WriteString("[[kmain]] calling _2nd_main___\n");
     _2nd_main___();
-    Console_WriteString("[[kmain]] exiting...");
+    // Console_WriteString("[[kmain]] exiting...");
 }

@@ -5,10 +5,10 @@
 #define WRREG(regNm, regs, nmParam) if (strcmp(#regNm, nmParam)) regs->regNm = regVal
 #define RDREG(regNm, regs, nmParam) if (strcmp(#regNm, nmParam)) return regs->regNm
 int64_t Nat_GETREGS() {
-    return (int64_t)(int32_t) malloc(sizeof(Regs));
+    return (int64_t)(uint32_t) malloc(sizeof(Regs));
 }
 void Nat_WRREG(int64_t regsID, char* regNM, int64_t regVal) {
-    Regs* r = (Regs*)(int32_t)regsID;
+    Regs* r = (Regs*)(uint32_t)regsID;
     WRREG(eax, r, regNM);
     WRREG(ebx, r, regNM);
     WRREG(ecx, r, regNM);
@@ -34,7 +34,7 @@ void Nat_WRREG(int64_t regsID, char* regNM, int64_t regVal) {
     WRREG(ebp, r, regNM);
 }
 int64_t Nat_RDREG(int64_t regsID, char* regNM) {
-    Regs* r = (Regs*)(int32_t)regsID;
+    Regs* r = (Regs*)(uint32_t)regsID;
     RDREG(eax, r, regNM);
     RDREG(ebx, r, regNM);
     RDREG(ecx, r, regNM);
@@ -61,13 +61,13 @@ int64_t Nat_RDREG(int64_t regsID, char* regNM) {
     return 0;
 }
 void Nat_BIOS_INT(int64_t regsID, int64_t vec) {
-    BIOS_Call(vec, (Regs*)(int32_t)regsID);
+    BIOS_Call(vec, (Regs*)(uint32_t)regsID);
 }
 int64_t Nat_RDMEM(int64_t addr) {
-    return *((int64_t*)(int32_t)addr);
+    return *((int64_t*)(uint32_t)addr);
 }
 void Nat_WRMEM(int64_t addr, int64_t data) {
-    *((int64_t*)(int32_t)addr) = data;
+    *((uint32_t*)(uint32_t)addr) = (uint32_t)data;
 }
 void Nat_DUMPMEM() {
     dump_memory();
