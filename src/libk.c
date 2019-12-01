@@ -239,3 +239,22 @@ void free(void *mem)
     memory_assert(block->state == ALLOCATED);
     block->state = FREE;
 }
+
+int strcmp(const char *a, const char *b)
+{
+    int i;
+    for (i = 0; a[i] && b[i]; i++)
+    {
+        if (a[i] < b[i])
+            return -1;
+        if (a[i] > b[i])
+            return 1;
+    }
+    if (!a[i] && !b[i])
+        return 0;
+    if (a[i] < b[i])
+        return -1;
+    if (a[i] > b[i])
+        return 1;
+    return 0;
+}

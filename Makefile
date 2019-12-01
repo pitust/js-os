@@ -33,7 +33,7 @@ init:
 	@npm install
 	@patch metalkit/lib/types.h < src/types.diff
 	@echo "GCCVER := $(shell gcc --version | egrep -o "[0-9.]{1,}" | head -n 1)" > tmp1
-	@echo 'CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$(METALKIT_LIB) $(addprefix -I,$(wildcard /usr/lib/gcc/*-linux-gnu/7.4.0/include))' > tmp3
+	@echo 'CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -Isrc -I$(METALKIT_LIB) $(addprefix -I,$(wildcard /usr/lib/gcc/*-linux-gnu/7.4.0/include))' > tmp3
 	@cat tmp1 tmp3 metalkit/lib/Makefile.rules | sed "s/\*.o/out\/*/g" >tmp2
 	@cat tmp2 | sed 's/CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$$(METALKIT_LIB)//g' >tmp1
 	@cat tmp1 >metalkit/lib/Makefile.rules
