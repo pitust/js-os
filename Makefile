@@ -35,7 +35,7 @@ init:
 	@echo 'CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$(METALKIT_LIB) $(addprefix -I,$(wildcard /usr/lib/gcc/*-linux-gnu/7.4.0/include))' > tmp3
 	@cat tmp1 tmp3 metalkit/lib/Makefile.rules | sed "s/\*.o/out\/*/g" >tmp2
 	@cat tmp2 | sed 's/CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$$(METALKIT_LIB)//g' >tmp1
-	@cat tmp2 >metalkit/lib/Makefile.rules
+	@cat tmp1 >metalkit/lib/Makefile.rules
 	@rm tmp1 tmp2 tmp3
 	@mkdir -p out
 sizeof:
