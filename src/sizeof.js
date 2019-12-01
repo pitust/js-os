@@ -11,7 +11,7 @@ for (let e of all) {
 }
 console.log('   Total lines:', glen);
 console.log('  ---- By Lines ----');
-let list = flen.sort((a,b) => b.len - a.len);
-list.slice(0, 10).forEach(e => {
-    console.log(e.file.padStart(50) + ' '.repeat(10) + e.len);
+let list = flen.sort((a, b) => b.len - a.len);
+list.forEach(e => {
+        console.log(e.file.padStart(50) + ' '.repeat(10) + e.len);
 })
