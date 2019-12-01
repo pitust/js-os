@@ -1,0 +1,10 @@
+{
+    "name": "tsos",
+    "scripts": {
+        "build": "make"
+    },
+    "dependencies": {
+        "@babel/standalone": "^7.7.4"
+    },
+    "devDependencies": {}
+}

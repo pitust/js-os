@@ -1,0 +1,6 @@
+node_modules/
+metalkit/
+out/
+*.elf
+*.img
+.vscode

@@ -1,0 +1,9 @@
+18c18
+< CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$(METALKIT_LIB)
+---
+> GCCVER := $(shell gcc --version | egrep -o "[0-9.]{1,}" | head -n 1)
+> CFLAGS := -m32 -ffreestanding -nostdinc -fno-stack-protector -I$(METALKIT_LIB) $(addprefix -I,$(wildcard /usr/lib/gcc/*-linux-gnu/7.4.0/include))
+75c75
+< 	rm -f $(TARGET) $(ELF_TARGET) $(LST_TARGET) *.o
+---
+> 	rm -f $(TARGET) $(ELF_TARGET) $(LST_TARGET) out/*

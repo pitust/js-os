@@ -1,0 +1,4 @@
+54d53
+< #define NULL   ((void*)0)
+58d56
+< #define offsetof(type, member)  ((uint32)(&((type*)NULL)->member))
