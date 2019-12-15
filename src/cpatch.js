@@ -18,5 +18,11 @@ for (let e of natcall) {
     let reObj = new RegExp(re, 'g');
     mc = mc.replace(reObj, '');
 }
+{
+    
+    let re = 'char* getc' + suf;
+    let reObj = new RegExp(re, 'g');
+    mc = mc.replace(reObj, '');
+}
 mc = mc.replace(/void INTR[^}]+\}/g, '').replace(/\n\n+/g,'\n');
 fs.writeFileSync('out/main.c', mc);

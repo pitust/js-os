@@ -26,4 +26,20 @@ module.exports = [{
     name: 'DUMPMEM', // DUMPMEM()
     argc: 0,
     rets: 'void'
+}, {
+    name: 'MOUSEX', // MOUSEX(): x
+    argc: 0,
+    rets: 'number'
+}, {
+    name: 'MOUSEY', // MOUSEY(): y
+    argc: 0,
+    rets: 'number'
+}, {
+    name: 'GET_BIOSBUF_ADDR', // GET_BIOSBUF_ADDR(): biosBufAddress
+    argc: 0,
+    rets: 'number'
+}, {
+    name: 'PUTC', // GET_BIOSBUF_ADDR(chr)
+    argc: 1,
+    rets: 'void'
 }];

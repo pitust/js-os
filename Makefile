@@ -1,6 +1,6 @@
 METALKIT_LIB = metalkit/lib
 TARGET = js-os.img
-LIB_MODULES = console console_vga intr bios
+LIB_MODULES = console console_vga intr bios timer keyboard
 APP_SOURCES = out/js.o $(wildcard src/*.c)
 CC := gcc
 ifneq (,$(wildcard $(METALKIT_LIB)/Makefile.rules))
@@ -43,5 +43,5 @@ init:
 sizeof:
 	@node src/sizeof
 run: js-os.img
-	qemu-system-x86_64 -fda js-os.img -curses
+	qemu-system-i386 -fda js-os.img -fdb fakeDrive.txt -curses
 .PHONY: target clean sizeprof listing init sizeof run

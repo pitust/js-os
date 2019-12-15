@@ -1,9 +1,13 @@
 #include "console.h"
 #include "console_vga.h"
 #include "bios.h"
+#include "intr.h"
 #include "libk.h"
+#include "timer.h"
+#include "keyboard.h"
 int _2nd_main___();
 #define MEGA 1048576
+void Mouse_Init();
 void main()
 {
     ConsoleVGA_Init();
@@ -25,19 +29,17 @@ void main()
     memhi *= 65536; // the result is in 64K blocks here
     if (memlo > memhi)
     {
-        if (memlo > 0x7c00 - 0x400)
-        {
-            // More low memory!!!
-            memconfig(MEGA, memlo);
-        }
+        // More low memory!!!
+        memconfig(MEGA, memlo);
     }
     else
     {
         // More high memory!!!
         memconfig(MEGA * 16, memhi);
     }
-    // printf("memconfig finished: found %d of low mem, %d of high mem, %d of rly low mem\n", memlo, memhi, 0x7c00 - 0x400);
-    // Console_WriteString("[[kmain]] calling _2nd_main___\n");
+    printf("memconfig finished: found %x of low mem, %x of high mem\n", memlo, memhi);
+    Intr_SetFaultHandlers(Console_UnhandledFault);
+    Console_WriteString("[[kmain]] calling _2nd_main___\n");
     _2nd_main___();
-    // Console_WriteString("[[kmain]] exiting...");
+    Console_WriteString("[[kmain]] exiting...");
 }
