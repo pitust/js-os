@@ -1,46 +1,25 @@
-let regs = Nat_GETREGS();
-const DRIVE = 0x80;
-let bbuf = Nat_GET_BIOSBUF_ADDR();
-Nat_WRREG(regs, "ah", 0x41);
-Nat_WRREG(regs, "bx", 0x55AA);
-Nat_WRREG(regs, "dl", DRIVE);
-Nat_WRREG(regs, "cf", 0);
-Nat_BIOS_INT(regs, 0x13);
-if (Nat_RDREG(regs, "cf") == 1) {
-    console.log("LBA ext check fail. ah =", Nat_RDREG(regs, "ah"));
-    while (1);
+function outb(port, val) {
+    Nat_OUTB(port, val);
 }
-let dapAddr = (bbuf + 3) / 4 * 4;
-let bufAddr = dapAddr + 32;
-function readLBA(lba) {
-    Nat_WRMEM(dapAddr + 0, 16);                             // length of the DAP
-    Nat_WRMEM(dapAddr + 1, 0);                              // always zero
-    Nat_WRMEM16(dapAddr + 2, 1);                            // Sectors to read
-    Nat_WRMEM16(dapAddr + 4, bufAddr);                      // offset
-    Nat_WRMEM16(dapAddr + 6, 0);                            // segment
-    Nat_WRMEM32(dapAddr + 8, 0);                            // 64 - 32 lba (all zeroes; lba is 48bit; only low 4GB addressable for now)
-    Nat_WRMEM32(dapAddr + 12, lba & 0xffffff);              // 32 - 0 lba
-    Nat_WRREG(regs, "ds", 0);
-    Nat_WRREG(regs, "dl", DRIVE);
-    Nat_WRREG(regs, "si", dapAddr);
-    Nat_WRREG(regs, "ah", 0x42);
-    Nat_BIOS_INT(regs, 0x13);
-    let buf = [];
-    buf[512] = 0;
-    for (let i = 0; i < 512; i++) {
-        let v = Nat_RDMEM(i + bufAddr);
-        buf[i] = v;
-    }
-    return buf;
+let LBA = 0;
+const SECCOUNT = 1;
+outb(0x1F6, 0xE0 | ((LBA >> 24) & 0x0F));
+outb(0x1F1, 0x00);
+outb(0x1F2, SECCOUNT);
+outb(0x1F3, LBA);
+outb(0x1F4, LBA >> 8);
+outb(0x1F5, LBA >> 16);
+outb(0x1F7, 0x20);
+while (!(Nat_INB(0x1F7) & 8));
+let buf = [];
+for (let i = 0;i < 256;i++) {
+    let val = Nat_INW(0x1F0);
+    buf[i*2] = val & 0xff;
+    buf[i*2 + 1] = val >> 8;
 }
-if (Nat_RDREG(regs, "cf") == 1) {
-    console.log("LBA ext read fail. ah =", Nat_RDREG(regs, "ah"));
-    while (1);
-}
-console.log('Print...');
-let xbuf = readLBA(0), lbax = 0;
-for (let i = 0; i < 512; i++) {
-    let v = xbuf[i];
-    if (v == 0) break;
+for (let i = 0;i < 512;i++) {
+    let v = buf[i];
+    if (v == 0)break;
     Nat_PUTC(v);
 }
+console.log('\nDONE');

@@ -134,7 +134,8 @@ void Nat_WRMEM32(int64_t addr, int64_t data)
 {
     *((uint32_t *)(uint32_t)addr) = (uint32_t)data;
 }
-void Nat_PUTC(int64_t c) {
+void Nat_PUTC(int64_t c)
+{
     printf("%c", c);
 }
 void Nat_DUMPMEM()
@@ -177,4 +178,29 @@ void intinited()
 int64_t Nat_GET_BIOSBUF_ADDR()
 {
     return (int64_t)(uint32_t)&BIOS_SHARED->userdata;
+}
+
+int64_t Nat_INB(int64_t port)
+{
+    return (int64_t)IO_In8((uint16_t)port);
+}
+int64_t Nat_INW(int64_t port)
+{
+    return (int64_t)IO_In16((uint16_t)port);
+}
+int64_t Nat_IND(int64_t port)
+{
+    return (int64_t)IO_In32((uint16_t)port);
+}
+void Nat_OUTB(int64_t port, int64_t val)
+{
+    IO_Out8((uint16_t)port, (uint8_t)val);
+}
+void Nat_OUTW(int64_t port, int64_t val)
+{
+    IO_Out16((uint16_t)port, (uint16_t)val);
+}
+void Nat_OUTD(int64_t port, int64_t val)
+{
+    IO_Out32((uint16_t)port, (uint32_t)val);
 }
