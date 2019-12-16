@@ -1,14 +1,13 @@
-const SECCOUNT = 1;
 function readDisk(LBA) {
     let readBuf = [];
     readBuf[511] = 0;
-    Nat_OUTB(0x1F6, 0xE0 | ((LBA >> 24) & 0x0F));
-    Nat_OUTB(0x1F1, 0x00);
-    Nat_OUTB(0x1F2, SECCOUNT);
-    Nat_OUTB(0x1F3, LBA);
-    Nat_OUTB(0x1F4, LBA >> 8);
-    Nat_OUTB(0x1F5, LBA >> 16);
-    Nat_OUTB(0x1F7, 0x20);
+    Nat_OUTB(0x1F6, 0xE0 | ((LBA >> 24) & 0x0F));   // drive select
+    Nat_OUTB(0x1F1, 0x00);                          // wait
+    Nat_OUTB(0x1F2, 1);                             // Sector count
+    Nat_OUTB(0x1F3, LBA);                           // send LBA
+    Nat_OUTB(0x1F4, LBA >> 8);                      // ...
+    Nat_OUTB(0x1F5, LBA >> 16);                     // ...
+    Nat_OUTB(0x1F7, 0x20);                          // Send Command READ
     while (!(Nat_INB(0x1F7) & 8));
     for (let i = 0; i < 256; i++) {
         let val = Nat_INW(0x1F0);
