@@ -8,9 +8,6 @@ include $(METALKIT_LIB)/Makefile.rules
 endif
 CFLAGS += -DDEBUG=1
 JSCFLAGS := $(subst -Wall -Werror,,$(CFLAGS)) -Isrc
-out/main.js: out/babeld.js
-	@echo "ES2015 -> ES3"
-	@tsc out/babeld.js --allowJs --outFile out/main.js
 out/main.c: out/main.js
 	@echo "ES3 -> C99"
 	@ts2c out/main.js
@@ -21,7 +18,7 @@ out/main.c: out/main.js
 	@sed "s/#include <assert.h>//g" >out/main4.c <out/main3.c
 	@sed "s/#include <stdio.h>/#include <libk.h>/g" >out/main.c <out/main4.c
 	@node src/cpatch
-out/babeld.js: $(wildcard src/js/*)
+out/main.js: $(wildcard src/js/*)
 	@echo "ESnext -> ES2015"
 	@node src/build
 out/js.o: out/main.c
@@ -43,5 +40,5 @@ init:
 sizeof:
 	@node src/sizeof
 run: js-os.img
-	qemu-system-i386 -fda js-os.img -fdb fakeDrive.txt -curses
+	qemu-system-i386 -fda js-os.img -hda fakeDrive.txt -curses
 .PHONY: target clean sizeprof listing init sizeof run

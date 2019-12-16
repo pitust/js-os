@@ -39,6 +39,9 @@ void Nat_WRREG(int64_t regsID, char *regNM, int64_t regVal)
     WRREG(cl, r, regNM);
     WRREG(dl, r, regNM);
 
+    WRREG(si, r, regNM);
+    WRREG(di, r, regNM);
+
     WRREG(ds, r, regNM);
     WRREG(es, r, regNM);
     WRREG(eflags, r, regNM);
@@ -79,6 +82,9 @@ int64_t Nat_RDREG(int64_t regsID, char *regNM)
     RDREG(ch, r, regNM);
     RDREG(dh, r, regNM);
 
+    RDREG(si, r, regNM);
+    RDREG(di, r, regNM);
+
     RDREG(al, r, regNM);
     RDREG(bl, r, regNM);
     RDREG(cl, r, regNM);
@@ -117,6 +123,14 @@ int64_t Nat_RDMEM(int64_t addr)
     return (int64_t)(*((uint8_t *)(uint32_t)addr));
 }
 void Nat_WRMEM(int64_t addr, int64_t data)
+{
+    *((uint8_t *)(uint32_t)addr) = (uint8_t)data;
+}
+void Nat_WRMEM16(int64_t addr, int64_t data)
+{
+    *((uint16_t *)(uint32_t)addr) = (uint16_t)data;
+}
+void Nat_WRMEM32(int64_t addr, int64_t data)
 {
     *((uint32_t *)(uint32_t)addr) = (uint32_t)data;
 }

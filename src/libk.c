@@ -140,6 +140,7 @@ MemoryBlock *find_available(MemoryBlock **last_block, size_t size)
 
 void dump_memory()
 {
+    return;
     printf("Memory dump\n");
     size_t allocated_usage = 0;
     size_t free_usage = 0;
